@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+  <title>Happy holidays!</title>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <link rel="stylesheet" href="./style.scss" />
+</head>
+<body>
+  <main class="holiday-card">
+    <div class="holiday-card--picture">
+      <canvas class="holiday-card--picture_animation"></canvas>
+      <img
+        class="holiday-card--picture_foreground"
+        src="./img/foreground.png"
+      />
+    </div>
+    <div class="holiday-card--message">
+      <div class="holiday-card--message_fixed">
+        Happy holidays from Cambridge, MA!
+      </div>
+      <div class="holiday-card--mesage_dynamic" contenteditable></div>
+    </div>
+  </main>
+  <script src="./main.ts"></script>
+</body>
