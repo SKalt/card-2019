@@ -9,22 +9,29 @@ body {
   }
 }
 .holiday-card {
+  @mixin big_picture {
+    top: 0;
+    left: 0;
+    width: 100vw;
+    image-rendering: optimizeSpeed;
+  }
   height: 80vh;
   width: 100vw;
   max-width: 100vw;
   max-height: 100vw;
   .holiday-card--picture {
     .holiday-card--picture_foreground {
+      @include big_picture();
       position: relative;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      image-rendering: optimizeSpeed;
     }
     .holiday-card--picture_animation {
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: relative;
+      @include big_picture();
+      &::before {
+        background: url("./img/snow.png") repeat;
+        background-size: cover;
+      }
+      overflow: hidden;
     }
   }
   .holiday-card--message {
