@@ -14,6 +14,7 @@ body {
     left: 0;
     width: 100vw;
     image-rendering: optimizeSpeed;
+    image-rendering: pixelated;
   }
   height: 80vh;
   width: 100vw;
@@ -25,7 +26,7 @@ body {
       position: relative;
     }
     .holiday-card--picture_animation {
-      position: relative;
+      position: absolute;
       @include big_picture();
       &::before {
         background: url("./img/snow.png") repeat;
