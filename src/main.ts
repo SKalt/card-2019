@@ -2,29 +2,28 @@ import {
   imageOf,
   asBitArray,
   layer,
-  colorBitArrayAsImageData,
-  getImageData
+  cursor,
+  getImageData,
+  getDecodedMessage,
+  writeMessage
 } from "./lib";
 import snow from "./img/snow.png";
 
-export function imagedata_to_image(imagedata) {
-  var canvas = document.createElement("canvas");
-  var ctx = canvas.getContext("2d");
-  canvas.width = imagedata.width;
-  canvas.height = imagedata.height;
-  ctx.putImageData(imagedata, 0, 0);
-
-  var image = new Image();
-  image.src = canvas.toDataURL();
-  return image;
-}
 async function main() {
+  const messageArea: HTMLElement = document.querySelector(
+    ".holiday-card--mesage_dynamic"
+  );
+  const message = getDecodedMessage();
+  if (message) messageArea.textContent = message;
+  else {
+    writeMessage(messageArea);
+  }
+
   const container: HTMLElement = document.querySelector(
-    ".holiday-card--picture_animation"
+    ".holiday-card--picture .background_animation"
   );
 
   imageOf(snow).then(img => {
-    console.log(`main--snow, ${img.width}, h ${img.height}`);
     const { width, height } = img;
     const imgData = getImageData(img);
     const bitArray = asBitArray(imgData);
@@ -54,36 +53,18 @@ async function main() {
         color: [170, 179, 211]
       })
     ];
-
+    const cursorCanvas: HTMLCanvasElement = document.querySelector(
+      ".holiday-card--picture .foreground_animation canvas"
+    );
     setInterval(() => {
       layers.forEach((draw, index) => {
         draw();
       });
     }, 300);
+    setInterval(
+      cursor(cursorCanvas, width, height, 229, 167, [150, 227, 252]),
+      750
+    );
   });
 }
 main();
-
-// const worker = new Worker("worker.js");
-// worker.onmessage = function(event) {
-//   console.log(event.data);
-// };
-// main();
-// function main2() {
-//   const foreground = document.querySelector(
-//     ".holiday-card--picture_foreground"
-//   );
-//   const backgrounds = [
-//     ...document.querySelectorAll(".holiday-card--picture_animation")
-//   ];
-//   foreground.onload = () => {
-//     let height = window.getComputedStyle(foreground).height;
-//     backgrounds.forEach(e => (e.style.height = height));
-//   };
-//   document
-//     .querySelectorAll(".holiday-card--picture_animation")
-//     .forEach(e => {});
-//   //     e.style.height = img.height;
-// }
-
-// main2();

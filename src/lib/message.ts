@@ -4,12 +4,15 @@ import {
 } from "lz-string";
 
 export function getDecodedMessage(): string {
-  return location.hash ? decompress(location.hash.slice(1)) : "";
+  let encoded = location.hash.slice(1);
+  return location.hash ? decompress(encoded) : "";
 }
 
 export function writeMessage(el: HTMLElement): void {
-  el.addEventListener("keypress", () => {
+  el.contentEditable = "true";
+  el.setAttribute("style", "min-height: 100px; min-width: 100px;");
+  el.addEventListener("keyup", () => {
     const path = `${location.origin}#${compress(el.innerText)}`;
-    history.pushState({ path }, "", path);
+    history.replaceState({ path }, "", path);
   });
 }

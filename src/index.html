@@ -11,18 +11,18 @@
 <body>
   <main class="holiday-card">
     <div class="holiday-card--picture">
-      <div class="holiday-card--picture_animation"></div>
-      <!-- <canvas class="holiday-card--picture_animation"></canvas> -->
-      <img
-        class="holiday-card--picture_foreground"
-        src="./img/foreground.png"
-      />
+      <div class="background_animation"></div>
+      <img class="picture" src="./img/foreground.png" />
+      <div class="foreground_animation">
+        <canvas></canvas>
+      </div>
     </div>
     <div class="holiday-card--message">
       <div class="holiday-card--message_fixed">
         Happy holidays from Cambridge, MA!
       </div>
-      <div class="holiday-card--mesage_dynamic" contenteditable></div>
+      <br />
+      <div class="holiday-card--mesage_dynamic"></div>
     </div>
   </main>
   <script src="./main.ts"></script>

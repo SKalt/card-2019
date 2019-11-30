@@ -1,15 +1,10 @@
-// import the main image
-// import the snow layer
-// import the 1-px cursor
 import {
   Transition,
   TransitionMatrix,
   AllowedXTransition,
   AllowedYTransition,
   Rgb,
-  Rgba,
-  ImageBitArray,
-  ImageDataLike
+  ImageBitArray
 } from "./";
 
 export function getImageData(img: HTMLImageElement): ImageData {
@@ -31,8 +26,6 @@ export async function imageOf(url: string): Promise<HTMLImageElement> {
   return result;
 }
 
-// define a layer
-// define a layer transition
 export function getTransition(
   matrix: TransitionMatrix,
   randomX: number,
@@ -44,29 +37,6 @@ export function getTransition(
   return { x, y };
 }
 
-// export function wrap(
-//   { x, y }: Transition,
-//   { data, width, height }: ImageDataLike
-// ): ImageDataLike {
-//   let result: number[] = [];
-//   const wrapDimension = (added: number, max: number) => {
-//     return (index: number) => (max + (index + added)) % max;
-//   };
-
-//   const wrapX = wrapDimension(x, width);
-//   const wrapY = wrapDimension(y, height);
-//   for (let i = 0; i <= width; i++) {
-//     for (let j = 0; j <= height; j++) {
-//       let originalStart = width * j + i;
-//       let wrappedStart = width * wrapY(j) + wrapX(i);
-//       for (let k = 0; k <= 4; k++) {
-//         result[wrappedStart + k] = data[originalStart + k];
-//       }
-//     }
-//   }
-//   return { data: result, width, height };
-// }
-
 export function asBitArray(img: ImageData): ImageBitArray {
   const bitArray: Array<1 | 0> = [];
   const { width, height, data } = img;
@@ -76,6 +46,9 @@ export function asBitArray(img: ImageData): ImageBitArray {
   return { bitArray, width, height };
 }
 
+const pixelIndex = (i: number, j: number, width: number) => width * j + i;
+const rgbaIndex = (i: number, j: number, width: number) =>
+  4 * pixelIndex(i, j, width);
 export function colorBitArrayAsImageData(
   color: Rgb,
   { bitArray, width, height }: ImageBitArray
@@ -182,3 +155,33 @@ _height: +---+---+---+
   putQuadrant(_x, 0, _width, _y)(0, _height); // _x, top-right
   return { _x, _y, _width, _height };
 }
+
+export const cursor = (
+  canvas: HTMLCanvasElement,
+  width: number,
+  height: number,
+  i: number,
+  j: number,
+  onColor: Rgb,
+  offColor: Rgb = [82, 147, 209]
+) => {
+  console.log({ width, height });
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  const img = new ImageData(width, height);
+  const index = rgbaIndex(i, j, width);
+  console.log({ index });
+  let on = true;
+  const setPixel = (on: boolean = true) => {
+    [...(on ? onColor : offColor), 255].forEach((value, _i) => {
+      img.data[index + _i] = value;
+    });
+    ctx.putImageData(img, 0, 0);
+  };
+  const blink = () => {
+    on = !on;
+    setPixel(on);
+  };
+  return blink;
+};
