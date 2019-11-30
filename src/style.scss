@@ -27,12 +27,11 @@ body {
     }
     .holiday-card--picture_animation {
       position: absolute;
-      @include big_picture();
-      &::before {
-        background: url("./img/snow.png") repeat;
-        background-size: cover;
+      canvas {
+        position: absolute;
+        @include big_picture();
+        overflow: hidden;
       }
-      overflow: hidden;
     }
   }
   .holiday-card--message {

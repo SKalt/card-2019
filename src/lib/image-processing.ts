@@ -99,21 +99,32 @@ export function colorBitArrayAsImageData(
 }
 
 export const layer = ({
+  container,
+  x = 0,
+  y = 0,
   matrix,
   color,
   bitArray
 }: {
+  container: HTMLElement;
+  x: number;
+  y: number;
   matrix: TransitionMatrix;
   color: Rgb;
   bitArray: ImageBitArray;
 }) => {
   const img = colorBitArrayAsImageData(color, bitArray);
-  const { data, width, height } = img;
+  const { width, height } = img;
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  container.append(canvas);
+  const ctx = canvas.getContext("2d");
   const state = {
-    x: 0,
-    y: 0
+    x,
+    y
   };
-  const transition = (ctx: CanvasRenderingContext2D) => {
+  const transition = () => {
     const { x, y } = getTransition(matrix, Math.random(), Math.random());
     state.x += x;
     state.y += y;

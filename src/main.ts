@@ -19,29 +19,45 @@ export function imagedata_to_image(imagedata) {
   return image;
 }
 async function main() {
-  const canvas: HTMLCanvasElement = document.querySelector(
-    "canvas.holiday-card--picture_animation"
+  const container: HTMLElement = document.querySelector(
+    ".holiday-card--picture_animation"
   );
 
   imageOf(snow).then(img => {
     console.log(`main--snow, ${img.width}, h ${img.height}`);
-    canvas.width = img.width;
-    canvas.height = img.height;
+    const { width, height } = img;
     const imgData = getImageData(img);
     const bitArray = asBitArray(imgData);
-    const otherImgData = colorBitArrayAsImageData([255, 255, 255], bitArray);
-    const ctx = canvas.getContext("2d");
     const layers = [
-      // layer({}) // rearmost must come first
-      // layer({})(ctx)
-      layer({ matrix: [0.3, 0.3, 0.7], bitArray, color: [255, 255, 255] })
+      layer({
+        container,
+        x: 0,
+        y: 0,
+        matrix: [0.7, 0.7, 0.17],
+        color: [24, 32, 62],
+        bitArray
+      }),
+      layer({
+        container,
+        x: 100,
+        y: 100,
+        matrix: [0.15, 0.15, 0.35],
+        bitArray,
+        color: [96, 107, 145]
+      }),
+      layer({
+        container,
+        x: 75,
+        y: 15,
+        matrix: [0.3, 0.3, 0.7],
+        bitArray,
+        color: [170, 179, 211]
+      })
     ];
 
     setInterval(() => {
-      ctx.fillStyle = "#0e121d";
-      ctx.fillRect(0, 0, img.width, img.height);
       layers.forEach((draw, index) => {
-        draw(ctx);
+        draw();
       });
     }, 300);
   });
