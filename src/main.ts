@@ -41,7 +41,7 @@ async function main() {
       ctx.fillStyle = "#0e121d";
       ctx.fillRect(0, 0, img.width, img.height);
       layers.forEach((draw, index) => {
-        console.log(index, draw(ctx));
+        draw(ctx);
       });
     }, 300);
   });

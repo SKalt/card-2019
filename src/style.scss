@@ -12,6 +12,7 @@ body {
   @mixin big_picture {
     top: 0;
     left: 0;
+    // width: 400px;
     width: 100vw;
     image-rendering: optimizeSpeed;
     image-rendering: pixelated;
