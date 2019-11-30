@@ -101,7 +101,7 @@ export const layer = ({
     const { x, y } = getTransition(matrix, Math.random(), Math.random());
     state.x += x;
     state.y += y;
-    return { ...state, ...drawWrap(ctx, img, { ...state, width, height }) };
+    drawWrap(ctx, img, { ...state, width, height });
   };
   return transition;
 };
@@ -137,23 +137,13 @@ _height: +---+---+---+
     srcX: number,
     srcY: number
   ) => {
-    // ctx.beginPath();
-    // ctx.rect(x, y, width, height);
-    // ctx.stroke();
-    // ctx.rect()
-    // console.log({ x, y, dx, dy, width, height });
     ctx.putImageData(imgdata, x - srcX, y - srcY, srcX, srcY, width, height);
   };
-  ctx.strokeStyle = "white";
   // ctx.putImageData(imgdata, 0, 0, _width)
   putQuadrant(0, 0, _x, _y)(_width, _height); // \, upper-left
-  ctx.strokeStyle = "red";
   putQuadrant(_x + 1, _y + 1, _width - 1, _height - 1)(0, 0); // *, bottom-right
-  ctx.strokeStyle = "green";
   putQuadrant(0, _y + 1, _x, _height)(_width, 0); // y, bottom-left
-  ctx.strokeStyle = "blue";
   putQuadrant(_x, 0, _width, _y)(0, _height); // _x, top-right
-  return { _x, _y, _width, _height };
 }
 
 export const cursor = (

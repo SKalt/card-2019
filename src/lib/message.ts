@@ -10,7 +10,7 @@ export function getDecodedMessage(): string {
 
 export function writeMessage(el: HTMLElement): void {
   el.contentEditable = "true";
-  el.setAttribute("style", "min-height: 100px; min-width: 100px;");
+  el.setAttribute("style", "min-height: 100px");
   el.addEventListener("keyup", () => {
     const path = `${location.origin}#${compress(el.innerText)}`;
     history.replaceState({ path }, "", path);
