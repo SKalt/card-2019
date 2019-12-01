@@ -9,8 +9,11 @@
   "private": true,
   "scripts": {
     "serve": "parcel ./src/index.html",
-    "build": "parcel build -d public ./src/index.html",
-    "deploy": "yarn build && now"
+    "lint": "prettier ./src/**/*.{js,json,scss,html,ts,yml}",
+    "prebuild": "rm -r ./dist/*",
+    "build": "parcel build ./src/index.html",
+    "upload": "cd dist && git add . && git commit -am \"$(date -Im)\" && git push",
+    "deploy": "yarn lint --check && yarn build && yarn upload"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.4",
