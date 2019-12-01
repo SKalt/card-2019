@@ -12,7 +12,9 @@ export function writeMessage(el: HTMLElement): void {
   el.contentEditable = "true";
   el.setAttribute("style", "min-height: 100px");
   el.addEventListener("keyup", () => {
-    const path = `${location.origin}#${compress(el.innerText)}`;
+    const path = `${location.origin}${location.pathname}#${compress(
+      el.innerText
+    )}`;
     history.replaceState({ path }, "", path);
   });
 }
